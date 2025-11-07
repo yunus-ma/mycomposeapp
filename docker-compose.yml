@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    container_name: my_flask_web
+    ports:
+      - "5001:5000"
+    depends_on:
+      - db
+    environment:
+      - DB_HOST=db
+      - DB_USER=root
+      - DB_PASS=123456
+      - DB_NAME=testdb
+
+  db:
+    image: mysql:8.0
+    container_name: my_mysql_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: testdb
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:
